@@ -3,7 +3,7 @@
 ##############
 
 import time
-import logging
+import random
 
 import sys
 import logging
@@ -23,6 +23,7 @@ from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
 from typing import ( List, Dict, Any, Union, Optional, TypeVar )
 
 import NetMap.config as cfg
+from NetMap.utils import *
 from NetMap.dataTypes import *
 from NetMap.dataModels import *
 from NetMap.twBot import *
