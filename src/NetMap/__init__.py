@@ -1,3 +1,7 @@
+##############
+# INITIALIZE #
+##############
+
 import time
 import logging
 
@@ -10,14 +14,17 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S',
     stream=sys.stdout,
 )
-logger = logging.getLogger('notebook')
+logger = logging.getLogger('NetMap-Log')
 
 import pandas as pd
 from datetime import ( datetime, date, timedelta )
-from tweepy import ( API, Cursor, OAuthHandler, TweepError )
+from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
 
 from typing import ( List, Dict, Any, Union, Optional, TypeVar )
 
 import NetMap.config as cfg
 from NetMap.dataTypes import *
+from NetMap.dataModels import *
 from NetMap.twBot import *
+
+##################################
