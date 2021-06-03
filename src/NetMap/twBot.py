@@ -8,9 +8,9 @@ from NetMap import (
                     )
 
 class TwCreds:
-    """
-    Initializing an authorization to Twitter's API via Tweepy
-    """
+
+    """Initializing an authorization to Twitter's API via Tweepy"""
+
     def __init__(self):
 
         self.__creds = cfg.twitter_credentials()
@@ -28,9 +28,9 @@ class TwCreds:
 
 
 class TwCli:
-    """
-    Interactive Authorized Client
-    """
+
+    """Interactive Authorized Client"""
+    
     def __init__(self):
         """Authorize Client"""
         self.__auth = TwCreds().authenticate()

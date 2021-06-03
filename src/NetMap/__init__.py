@@ -4,7 +4,7 @@
 
 import time
 import random
-
+import requests
 import sys
 import logging
 
@@ -23,6 +23,8 @@ from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
 from typing import ( List, Dict, Any, Union, Optional, TypeVar )
 
 import NetMap.config as cfg
+from NetMap.searchCoordinates import LocationServices
+from NetMap.searchParams import *
 from NetMap.utils import *
 from NetMap.dataTypes import *
 from NetMap.dataModels import *
