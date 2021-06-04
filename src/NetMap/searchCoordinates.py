@@ -16,7 +16,7 @@ def callGoogle(endpoint: str, params: dict) -> str:
     call = requests.get(endpoint, params=params)
     response = call.json()
     # grab first element in payload
-    result = response['results'][0]
+    result: dict = response['results'][0]
     # format lat and lng to a string
     return f"{result['geometry']['location']['lat']}, {result['geometry']['location']['lng']}"
     
@@ -26,10 +26,10 @@ class LocationServices:
 
     def __init__(self, locations: list):
 
-        self.__api_endpoint = 'https://maps.googleapis.com/maps/api/geocode/json'
-        self.__api_key = cfg.google_credentials()
-        self.__locations = locations
-        self.__set_locations = {}
+        self.__api_endpoint: str = 'https://maps.googleapis.com/maps/api/geocode/json'
+        self.__api_key: str = cfg.google_credentials()
+        self.__locations: list = locations
+        self.__set_locations: dict = {}
 
     @property
     def locations(self):
@@ -51,14 +51,14 @@ class LocationServices:
                                          values are geocodes with radius attached
         """
         # convert radius integer to string
-        radius = f"{radius},mi" 
+        radius: str = f"{radius},mi" 
         # set empty dict
-        geocodes = {}
+        geocodes: dict = {}
         # iterate through instantiated locations list
         # set search parameters to pass to callGoogle method
         for location in self.locations:
 
-            params = {
+            params: dict = {
 
                 'address': location,
                 'sensor': 'false',
@@ -66,6 +66,6 @@ class LocationServices:
 
             }
             # define key value pairs | city - geocode
-            geocodes[location] = f"{callGoogle(endpoint=self.__api_endpoint, params=params)},{radius}"
+            geocodes[location]: str = f"{callGoogle(endpoint=self.__api_endpoint, params=params)},{radius}"
 
         return geocodes

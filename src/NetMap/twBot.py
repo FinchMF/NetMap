@@ -13,7 +13,7 @@ class TwCreds:
 
     def __init__(self):
 
-        self.__creds = cfg.twitter_credentials()
+        self.__creds: Dict[str, str] = cfg.twitter_credentials()
 
     def authenticate(self):
         """connects API keys for authorization"""
@@ -30,7 +30,7 @@ class TwCreds:
 class TwCli:
 
     """Interactive Authorized Client"""
-    
+
     def __init__(self):
         """Authorize Client"""
         self.__auth = TwCreds().authenticate()
@@ -56,7 +56,7 @@ class TwCli:
 
         """Fetch twitter username's twitter id"""
 
-        user = self.client.get_user(username)
+        user: USER = self.client.get_user(username)
 
         return user.id_str
 
@@ -72,8 +72,8 @@ class TwCli:
             - list of twitter users that are followers of delcared username
         """
 
-        responses = []
-        x=0
+        responses: list = []
+        x: int =0
         # paginate through search records in Twitter API
         for page in Cursor(self.client.followers, 
                             screen_name=username,
@@ -103,16 +103,16 @@ class TwCli:
            - DataFrame of Followers
         """
         # helper function to add usernname to USER object
-        def f(username: str, data: USER) -> USER:
+        def f(username: str, data: USER) -> Dict[str, Any]:
             """add username"""
-            data = data.__dict__
+            data: Dict[str, Any] = data.__dict__
             data.update({'USER': username})
 
             return data
         # utilize helper function
-        prepared_data = [ f(username, d) for d in data ]
+        prepared_data: List[Dict[str, Any]] = [ f(username, d) for d in data ]
         # build dataframe
-        dataframe = pd.DataFrame(prepared_data).drop(['_api', '_json'], axis=1)
+        dataframe: DATAFRAME = pd.DataFrame(prepared_data).drop(['_api', '_json'], axis=1)
 
         if save:
             # if saved - save csv with username in file title
@@ -136,8 +136,8 @@ class TwCli:
             - List of Filtered Tweet Objects
             """
 
-        TWEETS = []
-        count=0
+        TWEETS: list = []
+        count: int =0
         logger.info('Calling Twitter')
         # paginate through seearch records with Twitter API
         for page in Cursor(self.client.search,
@@ -179,9 +179,9 @@ class TwCli:
 
             return data
         # utilize helper function
-        prepared_data = [ f(search_query, d) for d in data ]
+        prepared_data: List[Dict[str, Any]] = [ f(search_query, d) for d in data ]
         # build dataframe
-        dataframe = pd.DataFrame(prepared_data).fillna('None')
+        dataframe: DATAFRAME = pd.DataFrame(prepared_data).fillna('None')
 
         if save:
             # if saved  - save csv with search query

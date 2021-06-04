@@ -24,6 +24,7 @@ from typing import ( List, Dict, Any, Union, Optional, TypeVar )
 
 import NetMap.config as cfg
 from NetMap.searchCoordinates import LocationServices
+from NetMap.searchDates import DateRange
 from NetMap.searchParams import *
 from NetMap.utils import *
 from NetMap.dataTypes import *

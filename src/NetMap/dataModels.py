@@ -1,8 +1,7 @@
 
-from NetMap import ( TWEET, logger )
+from NetMap import ( TWEET, logger, List, Dict )
 
 class FilterTweet:
-
     """Tweet Filtering Object
        ----------------------
        Recieves tweet object from twitter API
@@ -17,31 +16,29 @@ class FilterTweet:
             - Original Tweet's Owner
             - Accounts referenced in Original Tweet
     """
-
     def __init__(self, tweet: TWEET, verbose: bool=False):
-
         """filtering process"""
         # fetch all hashtags
-        self.hashtags = [ h['text'] for h in tweet.entities['hashtags'] ]
+        self.hashtags: List[str] = [ h['text'] for h in tweet.entities['hashtags'] ]
         # fetch all mentioned accounts
-        self.users_mentions_screennames = [ s['screen_name'] for s in tweet.entities['user_mentions'] ]
-        self.users_mentions_names = [ s['name'] for s in tweet.entities['user_mentions'] ]
-        self.users_mentions_ids = [ s['id'] for s in tweet.entities['user_mentions'] ]
+        self.users_mentions_screennames: List[str] = [ s['screen_name'] for s in tweet.entities['user_mentions'] ]
+        self.users_mentions_names: List[str] = [ s['name'] for s in tweet.entities['user_mentions'] ]
+        self.users_mentions_ids: List[str] = [ s['id'] for s in tweet.entities['user_mentions'] ]
 
         try:
             # check if tweet's content is original or retweeted
             # if retweeted fetch hashtags in the retweeted content
-            self.retweeted_hashtags = [ h['text'] for h in tweet.retweeted_status.entities['hashtags'] ]
+            self.retweeted_hashtags: List[str] = [ h['text'] for h in tweet.retweeted_status.entities['hashtags'] ]
             # fetch all mentioned accounts from the retweeted content
-            self.retweeted_mentions_screennames = [ s['screen_name'] for s in tweet.retweeted_status.entities['user_mentions'] ]
-            self.retweeted_mentions_names = [ s['name'] for s in tweet.retweeted_status.entities['user_mentions'] ]
-            self.retweeted_mentions_ids = [ s['id'] for s in tweet.retweeted_status.entities['user_mentions'] ]
+            self.retweeted_mentions_screennames: List[str] = [ s['screen_name'] for s in tweet.retweeted_status.entities['user_mentions'] ]
+            self.retweeted_mentions_names: List[str] = [ s['name'] for s in tweet.retweeted_status.entities['user_mentions'] ]
+            self.retweeted_mentions_ids: List[str] = [ s['id'] for s in tweet.retweeted_status.entities['user_mentions'] ]
 
         except Exception:
             if verbose:
                 logger.info("Tweet is Orginal | Not Retweeted from Another Account")
         # filtered tweet object
-        self.TWEET = {
+        self.TWEET: Dict[str, str] = {
                         # general info about tweet content and owner's account
                         'tweet_time': tweet.created_at.strftime("%Y-%m-%dT%H:%M:%S"),
                         'tweet_id': tweet.id,
@@ -81,53 +78,23 @@ class FilterTweet:
                         'retweet_user_friends_count': tweet.retweeted_status.user.friends_count if 'retweeted_status' in tweet.__dict__ else None,
                         'retweet_retweeted_count': tweet.retweeted_status.retweet_count if 'retweeted_status' in tweet.__dict__ else None,
                         'retweet_favorited_count': tweet.retweeted_status.favorite_count if 'retweeted_status' in tweet.__dict__ else None
-
         }
-        # iterate through fetched lists and dynamically update the filtered tweet object
-        x=0
-        for hashtag in self.hashtags:
+        self.addFilteredData()
 
-            self.TWEET[f"hashtag_{x}"] = hashtag
-            x+=1
-        x=0
-        for mention in self.users_mentions_screennames:
-
-            self.TWEET[f"user_mention_screen_name_{x}"] = mention
-            x+=1
-        x=0
-        for name in self.users_mentions_names:
-
-            self.TWEET[f"user_mention_name_{x}"] = name
-            x+=1
-        x=0
-        for userId in self.users_mentions_ids:
-
-            self.TWEET[f"user_mention_id_{x}"] = userId
-            x+=1
-        # if content is retweeted
-        try:
-
+    def addFilteredData(self):
+        """Add additional filtered data to Tweet Object"""
+        # collect filtered data attributes
+        filteredData: List[tuple] = [ i for i in zip(self.__dict__.keys(), self.__dict__.values()) if i[0] != 'TWEET']
+        # iterate through tuples and set dynamic categorical keys in filtered tweet object
+        for datas in filteredData:
             x=0
-            for hashtag in self.retweeted_hashtags:
-
-                self.TWEET[f"retweeted_hashtag_{x}"] = hashtag
-                x+=1
-            x=0
-            for mention in self.retweeted_mentions_screennames:
-
-                self.TWEET[f"retweeted_user_screen_name_{x}"] = mention
-                x+=1
-            x=0
-            for name in self.retweeted_mentions_name:
-
-                self.TWEET[f"retweeted_mentions_name_{x}"] = name
-                x+=1
-            x=0
-            for userId in self.retweeted_mentions_ids:
-
-                self.TWEET[f"retweeted_mentions_ids_{x}"] = userId
-                x+=1
-                
-        except Exception:
-            if verbose:
-                logger.info("Content Original")
+            # access the tuple containing keys and values
+            for data in datas:
+                # check that values are being accessed
+                # not keys
+                if type(data) == list:
+                    # iterate through values 
+                    # generate dynamic categorical keys
+                    for d in data:
+                        self.TWEET[f'{datas[0]}_{x}'] = d
+                        x+=1    

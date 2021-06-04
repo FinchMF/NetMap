@@ -18,16 +18,17 @@ class Tools:
             - list of handles (list of strings)
         """
 
-        collectedFollowers = []
+        collectedFollowers: list = []
         # add and count randomly choosen handles
         while len(collectedFollowers) < num_accounts:
             # set random idx
-            rand_idx = random.randint(0, len(followers)-1)
+            rand_idx: int = random.randint(0, len(followers)-1)
             # choose follower
-            follower = followers[rand_idx]
+            follower: str = followers[rand_idx]
             # add the follower
             # remove it from the list to avoid it being recalled
-            collectedFollowers.append(follower)
+            collector = colletedFollowers.append
+            collector(follower)
             followers.remove(follower)
 
         return collectedFollowers

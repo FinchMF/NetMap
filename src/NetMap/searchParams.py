@@ -1,5 +1,5 @@
 
-from NetMap import ( datetime, timedelta, LocationServices )
+from NetMap import ( LocationServices, DateRange )
 
         
 def set_locations(locations: list) -> dict:
@@ -16,21 +16,9 @@ def set_wordList():
         'biden'
     ]
 
-def set_dates():
+def set_dates(start_date: str = None, num_days: int = 7):
 
-    deltas = {
-
-        'today': datetime.today().strftime('%Y-%m-%d'),
-        'yesterday': (datetime.today() - timedelta(days=1)).strftime('%Y-%m-%d'),
-        'two_days_ago': (datetime.today() - timedelta(days=2)).strftime('%Y-%m-%d')
-
-    }
-
-    return [
-
-        [deltas['yesterday'], deltas['today']],
-        [deltas['two_days_ago'], deltas['yesterday']]
-    ]
+    return DateRange(start_date=start_date, num_days=num_days).dates
 
 class SearchParams:
 
