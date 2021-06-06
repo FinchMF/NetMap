@@ -1,7 +1,66 @@
 
 from NetMap import ( TWEET, logger, List, Dict )
 
+class TweetData(dict):
+
+    """Base Tweet Data Model Object for Filtering"""
+
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+        self.__dict__ = self
+
+    @staticmethod
+    def filterData(tweet: TWEET):
+
+        """Tweet Filter Model"""
+
+        DATA: dict = TweetData()
+        # general info about tweet content and owner's account
+        DATA.tweet_time: str = tweet.created_at.strftime("%Y-%m-%dT%H:%M:%S")
+        DATA.tweet_id: int = tweet.id
+        DATA.full_text: str = tweet.full_text
+        DATA.text_range: str = tweet.display_text_range
+        DATA.tweet_user_id: int = tweet.user.id
+        DATA.tweet_user_name: str = tweet.user.name
+        DATA.tweet_user_screen_name: str = tweet.user.screen_name
+        DATA.tweet_user_location: str = tweet.user.location
+        DATA.tweet_user_description: str = tweet.user.description
+        DATA.tweet_user_followers_count: int = tweet.user.followers_count
+        DATA.tweet_user_friends_count: int = tweet.user.friends_count
+        DATA.tweet_user_creation: str = tweet.user.created_at.strftime("%Y-%m-%dT%H:%M:%S")
+        DATA.tweet_user_tweet_count: int = tweet.user.statuses_count
+        DATA.tweet_retweeted: bool = tweet.retweeted
+        DATA.tweet_favorited: bool = tweet.favorited
+        DATA.tweet_retweet_count: int = tweet.retweet_count
+        DATA.tweet_favorite_count: int = tweet.favorite_count
+        # if tweet is a reply, log who it is a rely to
+        DATA.tweet_in_reply_to_status_id: int = tweet.in_reply_to_status_id
+        DATA.tweet_in_reply_to_user_id: int = tweet.in_reply_to_user_id
+        DATA.tweet_in_reply_to_user_screen_name: str = tweet.in_reply_to_screen_name
+        # general info about content's origin if conetent is retweeted
+        DATA.retweeted_tweet_time: str = tweet.retweeted_status.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweeted_full_text: str = tweet.retweeted_status.full_text if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweeted_text_range: str = tweet.retweeted_status.display_text_range if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweeted_tweet_id: int = tweet.retweeted_status.id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweeted_source: str = tweet.retweeted_status.source if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_in_reply_to_id: int = tweet.retweeted_status.in_reply_to_status_id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_in_reply_to_user_id: int = tweet.retweeted_status.in_reply_to_user_id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_in_reply_to_user_screenname: str = tweet.retweeted_status.in_reply_to_screen_name if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_id: int = tweet.retweeted_status.user.id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_screen_name: str = tweet.retweeted_status.user.screen_name if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_description: str = tweet.retweeted_status.user.description if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_creation: str = tweet.retweeted_status.user.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_followers: str = tweet.retweeted_status.user.followers_count if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_friends_count: int = tweet.retweeted_status.user.friends_count if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_retweeted_count: int = tweet.retweeted_status.retweet_count if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_favorited_count: int = tweet.retweeted_status.favorite_count if 'retweeted_status' in tweet.__dict__ else None
+
+        return DATA
+
+
 class FilterTweet:
+
     """Tweet Filtering Object
        ----------------------
        Recieves tweet object from twitter API
@@ -15,9 +74,19 @@ class FilterTweet:
             - Original Tweet Text and Content descriptors
             - Original Tweet's Owner
             - Accounts referenced in Original Tweet
+
+        How the process works:
+        ----------------------
+          - the object first searches for all hashtags and mentions
+          - then checks to see if the content is a retweet
+           
+          - once that is complete, the tweet if filerted by a filter template
+          - subsequent to this filter, the hashtags and mentions data is added dynamically
     """
     def __init__(self, tweet: TWEET, verbose: bool=False):
-        """filtering process"""
+
+        """filtering process automatic"""
+
         # fetch all hashtags
         self.hashtags: List[str] = [ h['text'] for h in tweet.entities['hashtags'] ]
         # fetch all mentioned accounts
@@ -38,50 +107,11 @@ class FilterTweet:
             if verbose:
                 logger.info("Tweet is Orginal | Not Retweeted from Another Account")
         # filtered tweet object
-        self.TWEET: Dict[str, str] = {
-                        # general info about tweet content and owner's account
-                        'tweet_time': tweet.created_at.strftime("%Y-%m-%dT%H:%M:%S"),
-                        'tweet_id': tweet.id,
-                        'full_text': tweet.full_text,
-                        'text_range': tweet.display_text_range,
-                        'tweet_user_id': tweet.user.id,
-                        'tweet_user_name': tweet.user.name,
-                        'tweet_user_screen_name': tweet.user.screen_name,
-                        'tweet_user_location': tweet.user.location,
-                        'tweet_user_description': tweet.user.description,
-                        'tweet_user_followers_count': tweet.user.followers_count,
-                        'tweet_user_friends_count': tweet.user.friends_count,
-                        'tweet_user_creation': tweet.user.created_at.strftime("%Y-%m-%dT%H:%M:%S"),
-                        'tweet_user_tweet_count': tweet.user.statuses_count,
-                        'tweet_retweeted': tweet.retweeted,
-                        'tweet_favorited': tweet.favorited,
-                        'tweet_retweet_count': tweet.retweet_count,
-                        'tweet_favortite_count': tweet.favorite_count,
-                        # if tweet is a reply, log who it is a reply to
-                        'in_reply_to_status_id': tweet.in_reply_to_status_id,
-                        'in_reply_to_user_id': tweet.in_reply_to_user_id,
-                        'in_reply_to_screen_name': tweet.in_reply_to_screen_name,
-                        # general info about content if the content is retweeted
-                        'retweeted_tweet_time': tweet.retweeted_status.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweeted_full_text': tweet.retweeted_status.full_text if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweeted_text_range': tweet.retweeted_status.display_text_range if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweeted_tweet_id': tweet.retweeted_status.id if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweeted_source': tweet.retweeted_status.source if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_in_reply_to_id': tweet.retweeted_status.in_reply_to_status_id if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_in_reply_to_user_id': tweet.retweeted_status.in_reply_to_user_id if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_in_reply_to_user_screenname': tweet.retweeted_status.in_reply_to_screen_name if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_user_id': tweet.retweeted_status.user.id if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_user_screen_name': tweet.retweeted_status.user.screen_name if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_user_description': tweet.retweeted_status.user.description if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_user_creation': tweet.retweeted_status.user.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_user_followers': tweet.retweeted_status.user.followers_count if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_user_friends_count': tweet.retweeted_status.user.friends_count if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_retweeted_count': tweet.retweeted_status.retweet_count if 'retweeted_status' in tweet.__dict__ else None,
-                        'retweet_favorited_count': tweet.retweeted_status.favorite_count if 'retweeted_status' in tweet.__dict__ else None
-        }
+        self.TWEET: Dict[str, Any] = TweetData().filterData(tweet=tweet)
         self.addFilteredData()
 
     def addFilteredData(self):
+
         """Add additional filtered data to Tweet Object"""
         # collect filtered data attributes
         filteredData: List[tuple] = [ i for i in zip(self.__dict__.keys(), self.__dict__.values()) if i[0] != 'TWEET']

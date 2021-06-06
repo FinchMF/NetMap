@@ -23,9 +23,10 @@ from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
 from typing import ( List, Dict, Any, Union, Optional, TypeVar )
 
 import NetMap.config as cfg
+from NetMap.searchWords import WordSearch
 from NetMap.searchCoordinates import LocationServices
 from NetMap.searchDates import DateRange
-from NetMap.searchParams import *
+from NetMap.searchParams import SearchParams
 from NetMap.utils import *
 from NetMap.dataTypes import *
 from NetMap.dataModels import *

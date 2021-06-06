@@ -1,14 +1,9 @@
 
-from NetMap import ( LocationServices, DateRange )
+from NetMap import ( LocationServices, DateRange, WordSearch )
 
-def set_wordList():
+def set_wordList(words: list) -> dict:
 
-    return [
-
-        'trump',
-        'covid19',
-        'biden'
-    ]
+    return WordSearch(words).formatted
         
 def set_locations(locations: list) -> dict:
 
@@ -26,6 +21,7 @@ class SearchParams:
 
         self.__locations = set_locations(locations=locations)
         self.__dates = set_dates(start_date=start_date, num_days=num_days)
+        self.__words = set_wordList(words=words)
 
     @property
     def locations(self):
@@ -34,4 +30,8 @@ class SearchParams:
     @property
     def dates(self):
         return self.__dates
+
+    @property
+    def words(self):
+        return self.__words
 

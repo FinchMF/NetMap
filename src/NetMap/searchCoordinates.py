@@ -51,7 +51,7 @@ class LocationServices:
                                          values are geocodes with radius attached
         """
         # convert radius integer to string
-        radius: str = f"{radius},mi" 
+        radius: str = f"{radius}mi" 
         # set empty dict
         geocodes: dict = {}
         # iterate through instantiated locations list

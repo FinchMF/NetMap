@@ -35,7 +35,7 @@ class DateRange:
 
         self.__start: str = start_date if start_date != None else datetime.today().strftime('%Y-%m-%d')
         self.__num_days: int = num_days
-
+        # generation functions
         self.genDeltas()
         self.genDateList()
 
