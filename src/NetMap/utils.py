@@ -1,5 +1,7 @@
 
-from NetMap import ( random )
+from NetMap import ( random, pd, 
+                     CLIENT, DATAFRAME,
+                     logger )
 
 class Tools:
 
@@ -32,3 +34,38 @@ class Tools:
             followers.remove(follower)
 
         return collectedFollowers
+
+    @staticmethod
+    def collect_randomly_chosen(selected_followers: list, 
+                                client: CLIENT, 
+                                records: int = 5 ) -> DATAFRAME:
+
+        """Collect all the followers 
+            of the randomly choosen followers 
+            from seed account
+            -----------------
+            - Parameters:
+                - selected_followers (lsit of strings) 
+                - client (twittwe client)
+                - records (integer) """
+
+        followersFramed = []
+        # iterate through randomly chosen accounts from seed account
+        for follower in selected_followers:
+            # retrieve there followers
+            data = client.get_user_followers(username=follower, 
+                                             records=records)
+
+            try:
+                # attempt to make dataframe
+                dataframe = client.build_followers_dataframe(username=follower,
+                                                             data=data, 
+                                                             save=False)
+
+            except Exception as e:
+                logger.info(f"{e} | {follower}")
+
+            collector = followersFramed.append
+            collector(dataframe)
+
+        return pd.concat(followersFramed)
