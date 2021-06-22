@@ -88,7 +88,7 @@ class Tools:
             for city, geocode in params.locations.items():
                 # iterate through set words as hashtags
                 for word in params.words['as_hashtags']:
-                    # search each word per location each date
+                    # search each word at each location for each date
                     tweets = client.search(date=date[0], 
                                            records=2,
                                            geocode=geocode,
