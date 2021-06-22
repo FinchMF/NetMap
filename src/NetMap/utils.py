@@ -69,13 +69,14 @@ class Tools:
         return pd.concat(followersFramed)
 
     @staticmethod
-    def collect_search(params: PARAMS, client: CLIENT) -> DATAFRAME:
+    def collect_search(params: PARAMS, client: CLIENT, records: int) -> DATAFRAME:
 
         """Collect all results in PARAMS parameters
            ----------------------------------------
            Parameters:
             - params: object contain all parameters set to search twitter
             - client: client to reach Twitter API
+            - records: amount of pagination per search
 
             Returns:
             - Dataframe of all search results
@@ -90,7 +91,7 @@ class Tools:
                 for word in params.words['as_hashtags']:
                     # search each word at each location for each date
                     tweets = client.search(date=date[0], 
-                                           records=2,
+                                           records=records,
                                            geocode=geocode,
                                            search_query=word)
                     # generate dataframe and append
