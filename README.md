@@ -1,3 +1,3 @@
 # NetMap
 
-Twiter Network Visualization Tool
+Twitter Network Visualization Tool
