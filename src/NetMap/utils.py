@@ -97,6 +97,7 @@ class Tools:
                     # generate dataframe and append
                     dataframe = client.build_tweet_dataframe(search_query=word, 
                                                              data=tweets)
-                    fullSearch.append(dataframe)
+                    collector = fullSearch.append
+                    collector(dataframe)
         # concat all dataframes and return
         return pd.concat(fullSearch)
