@@ -112,7 +112,10 @@ class TwCli:
         # utilize helper function
         prepared_data: List[Dict[str, Any]] = [ f(username, d) for d in data ]
         # build dataframe
-        dataframe: DATAFRAME = pd.DataFrame(prepared_data).drop(['_api', '_json'], axis=1)
+        try:
+            dataframe: DATAFRAME = pd.DataFrame(prepared_data).drop(['_api', '_json'], axis=1)
+        except:
+            dataframe: DATAFRAME = pd.DataFrame(prepared_data)
 
         if save:
             # if saved - save csv with username in file title

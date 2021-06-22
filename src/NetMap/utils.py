@@ -29,7 +29,7 @@ class Tools:
             follower: str = followers[rand_idx]
             # add the follower
             # remove it from the list to avoid it being recalled
-            collector = colletedFollowers.append
+            collector = collectedFollowers.append
             collector(follower)
             followers.remove(follower)
 
