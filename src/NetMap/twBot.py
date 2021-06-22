@@ -137,8 +137,8 @@ class TwCli:
             """
 
         TWEETS: list = []
-        count: int =0
-        logger.info('Calling Twitter')
+        count: int = 0
+        logger.info(f'Calling Twitter | {date} | {geocode} | {search_query}')
         # paginate through seearch records with Twitter API
         for page in Cursor(self.client.search,
                             q=search_query,

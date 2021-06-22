@@ -18,7 +18,7 @@ def callGoogle(endpoint: str, params: dict) -> str:
     # grab first element in payload
     result: dict = response['results'][0]
     # format lat and lng to a string
-    return f"{result['geometry']['location']['lat']}, {result['geometry']['location']['lng']}"
+    return f"{result['geometry']['location']['lat']},{result['geometry']['location']['lng']}"
     
 class LocationServices:
 

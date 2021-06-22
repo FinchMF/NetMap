@@ -1,6 +1,6 @@
 
 from NetMap import ( random, pd, 
-                     CLIENT, DATAFRAME,
+                     CLIENT, DATAFRAME, PARAMS,
                      logger )
 
 class Tools:
@@ -40,10 +40,8 @@ class Tools:
                                 client: CLIENT, 
                                 records: int = 5 ) -> DATAFRAME:
 
-        """Collect all the followers 
-            of the randomly choosen followers 
-            from seed account
-            -----------------
+        """Collect all the followers of the randomly choosen followers from seed account
+            ----------------------------------------------------------------------------
             - Parameters:
                 - selected_followers (lsit of strings) 
                 - client (twittwe client)
@@ -69,3 +67,35 @@ class Tools:
             collector(dataframe)
 
         return pd.concat(followersFramed)
+
+    @staticmethod
+    def collect_search(params: PARAMS, client: CLIENT) -> DATAFRAME:
+
+        """Collect all results in PARAMS parameters
+           ----------------------------------------
+           Parameters:
+            - params: object contain all parameters set to search twitter
+            - client: client to reach Twitter API
+
+            Returns:
+            - Dataframe of all search results
+        """
+
+        fullSearch = []
+        # iterate through date parameters
+        for date in params.dates:
+            # iterate through geo locations
+            for city, geocode in params.locations.items():
+                # iterate through set words as hashtags
+                for word in params.words['as_hashtags']:
+                    # search each word per location each date
+                    tweets = client.search(date=date[0], 
+                                           records=2,
+                                           geocode=geocode,
+                                           search_query=word)
+                    # generate dataframe and append
+                    dataframe = client.build_tweet_dataframe(search_query=word, 
+                                                             data=tweets)
+                    fullSearch.append(dataframe)
+        # concat all dataframes and return
+        return pd.concat(fullSearch)
