@@ -37,7 +37,7 @@ class Tools:
 
     @staticmethod
     def collect_randomly_chosen(selected_followers: list, 
-                                client: CLIENT, 
+                               client: CLIENT, 
                                 records: int = 5 ) -> DATAFRAME:
 
         """Collect all the followers of the randomly choosen followers from seed account

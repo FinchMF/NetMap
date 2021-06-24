@@ -11,7 +11,7 @@ sys.path.append(
     )
 import unittest
 import NetMap
-from NetMap import SearchParams
+from NetMap import SearchParams, datetime
 
 class Settings(dict):
 
@@ -26,7 +26,7 @@ class Settings(dict):
 
         params.locations: list = ['manhattan']
         params.words: list = ['search', 'words']
-        params.start_date: str = '2021-06-01'
+        params.start_date: str = datetime.now().strftime("%Y-%m-%d")
         params.num_days: int = 7
 
         return params
@@ -38,7 +38,7 @@ class Settings(dict):
 
         params.locations: list = ['20 W 34th St, New York, NY 10001']
         params.words: list = ['SEARCH', 'wOrDs']
-        params.start_date: str = '2021-06-01'
+        params.start_date: str = datetime.now().strftime("%Y-%m-%d")
         params.num_days: int = 7
 
         return params
