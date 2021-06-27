@@ -1,18 +1,52 @@
 CREATE TABLE WordSearch (
-
+    -- general info about tweet content and owner's account
     tweet_time VARCHAR(30),
-    tweet_id int,
+    tweet_id INT,
     full_text VARCHAR(300),
     text_range VARCHAR(30),
+    tweet_user_id INT,
+    tweet_user_name VARCHAR(100),
+    tweet_user_screen_name VARCHAR(100),
+    tweet_user_location VARCHAR(100),
+    tweet_user_description VARCHAR(300),
+    tweet_user_followers_count INT,
+    tweet_user_friends_count INT,
+    tweet_user_creation VARCHAR(100),
+    tweet_user_tweet_count INT,
+    tweet_retweeted BIT(1),
+    tweet_favorited BIT(1),
+    tweet_retweet_count INT,
+    tweet_favorite_count INT, 
+    -- for tweets that are replys, log data here else None
+    tweet_in_reply_to_status_id INT,
+    tweet_in_reply_to_user_id INT,
+    tweet_in_reply_to_user_screen_name VARCHAR(100),
+    -- general in about content's origin if content is retweeted
+    retweeted_tweet_time VARCHAR(30),
+    retweeted_full_text VARCHAR(300),
+    retweeted_text_range VARCHAR(30),
+    retweeted_tweet_id INT,
+    retweeted_source VARCHAR(70),
+    retweet_in_reply_to_id INT,
+    retweet_in_reply_user_id INT,
+    retweet_in_reply_to_user_screenname VARCHAR(100),
+    retweet_user_id INT,
+    retweet_user_screen_name VARCHAR(100),
+    retweet_user_description VARCHAR(300),
+    retweet_user_creation VARCHAR(100),
+    retweet_user_followers_count INT,
+    retweet_user_friends_count INT,
+    retweet_retweeted_count INT,
+    retweet_favorited_count INT,
+    -- LOGGED SEARCH PARAMS
+    -- the word or phrase the tweet is a result of
+    search_query VARCHAR(300),
+    -- the location the tweet is a result of
+    search_location VARCHAR(300),
+    -- the time the tweet was searched
+    search_time VARCHAR(20),
 
-
+    PRIMARY KEY (tweet_id)
 
 )
-
--- word search will be a table that contains results for a text from the 
- -- word search function (or phrase) -- this will have a base set of columns
-  -- and a set of columns that are added through out  altering the table
-    -- there will also be a table of followers with unique IDs
-        -- i want to be able to connect the unique IDs of the accounts to text and other accounts
-    -- additionally, this table will need to be automated, the altered based on setup files when 
-    -- program is ran
+;

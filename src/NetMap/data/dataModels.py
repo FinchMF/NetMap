@@ -51,7 +51,7 @@ class TweetData(dict):
         DATA.retweet_user_screen_name: str = tweet.retweeted_status.user.screen_name if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_user_description: str = tweet.retweeted_status.user.description if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_user_creation: str = tweet.retweeted_status.user.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None
-        DATA.retweet_user_followers: str = tweet.retweeted_status.user.followers_count if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_followers_count: int = tweet.retweeted_status.user.followers_count if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_user_friends_count: int = tweet.retweeted_status.user.friends_count if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_retweeted_count: int = tweet.retweeted_status.retweet_count if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_favorited_count: int = tweet.retweeted_status.favorite_count if 'retweeted_status' in tweet.__dict__ else None
@@ -80,8 +80,8 @@ class FilterTweet:
           - the object first searches for all hashtags and mentions
           - then checks to see if the content is a retweet
            
-          - once that is complete, the tweet if filerted by a filter template
-          - subsequent to this filter, the hashtags and mentions data is added dynamically
+          - once that is complete, the tweet is filtered by a filter template
+          - subsequent to the initial template, the hashtags and mentions data is added dynamically
     """
     def __init__(self, tweet: TWEET, verbose: bool=False):
 

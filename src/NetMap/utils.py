@@ -96,6 +96,8 @@ class Tools:
                                            search_query=word)
                     # generate dataframe and append
                     dataframe = client.build_tweet_dataframe(search_query=word, 
+                                                             city=city,
+                                                             date=date[0],
                                                              data=tweets)
                     collector = fullSearch.append
                     collector(dataframe)

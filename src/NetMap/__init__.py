@@ -16,6 +16,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger('NetMap-Log')
 
+import mysql.connector as conn
 import pandas as pd
 from datetime import ( datetime, date, timedelta )
 from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )

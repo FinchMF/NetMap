@@ -176,9 +176,13 @@ class TwCli:
            
         """
         # helper function to add search query to tweet
-        def f(search_query: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        def f(search_query: str, 
+              city: str, date: str, 
+             data: Dict[str, Any]) -> Dict[str, Any]:
             """add search query"""
             data.update({'search_query': search_query})
+            data.update({'search_city': city})
+            data.update({'search_time': date})
 
             return data
         # utilize helper function
