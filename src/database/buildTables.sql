@@ -38,6 +38,7 @@ CREATE TABLE WordSearch (
     retweet_user_friends_count INT,
     retweet_retweeted_count INT,
     retweet_favorited_count INT,
+    
     -- LOGGED SEARCH PARAMS
     -- the word or phrase the tweet is a result of
     search_query VARCHAR(300),
