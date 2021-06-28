@@ -162,7 +162,7 @@ class TwCli:
 
         return TWEETS
 
-    def build_tweet_dataframe(self, search_query: str, data: List[Dict[str, Any]], save: bool=False) -> DATAFRAME:
+    def build_tweet_dataframe(self, search_query: str, city: str, date: str, data: List[Dict[str, Any]], save: bool=False) -> DATAFRAME:
 
         """Build Dataframe from Tweets
            ---------------------------
@@ -178,15 +178,18 @@ class TwCli:
         # helper function to add search query to tweet
         def f(search_query: str, 
               city: str, date: str, 
-             data: Dict[str, Any]) -> Dict[str, Any]:
-            """add search query"""
+              data: Dict[str, Any]) -> Dict[str, Any]:
+            """add search params"""
             data.update({'search_query': search_query})
             data.update({'search_city': city})
             data.update({'search_time': date})
 
             return data
         # utilize helper function
-        prepared_data: List[Dict[str, Any]] = [ f(search_query, d) for d in data ]
+        prepared_data: List[Dict[str, Any]] = [ f(search_query=search_query, 
+                                                  city=city,  
+                                                  date=date, 
+                                                  data=d) for d in data ]
         # build dataframe
         dataframe: DATAFRAME = pd.DataFrame(prepared_data).fillna('None')
 

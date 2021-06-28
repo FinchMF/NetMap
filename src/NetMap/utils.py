@@ -87,6 +87,7 @@ class Tools:
         for date in params.dates:
             # iterate through geo locations
             for city, geocode in params.locations.items():
+                print(city)
                 # iterate through set words as hashtags
                 for word in params.words['as_hashtags']:
                     # search each word at each location for each date
