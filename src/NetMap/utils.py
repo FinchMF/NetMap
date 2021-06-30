@@ -104,3 +104,9 @@ class Tools:
                     collector(dataframe)
         # concat all dataframes and return
         return pd.concat(fullSearch)
+
+
+    @staticmethod
+    def pipe():
+        """Function to Pass Tweet DataFrame into SQL DB"""
+        pass

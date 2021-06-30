@@ -1,4 +1,5 @@
 INSERT INTO WordSearch(
+-- 0    
 -- normalized insert statement of static record struture
     tweet_time,
     tweet_id,
@@ -46,11 +47,13 @@ VALUES {}
 
 -- dynamic insertion through table alteration
 ALTER TABLE WordSearch
+-- 1
 -- using the same 'formatting' hack to allow for dynamic addition of columns
 ADD {} VARCHAR(200)
 ;
 
 INSERT INTO WordSearch(
+-- 2
 -- using the 'formatting' hack to allow for dynamic insertion to added columns
     {}
 )
