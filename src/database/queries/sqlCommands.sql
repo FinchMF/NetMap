@@ -60,6 +60,16 @@ INSERT INTO WordSearch(
 
 VALUES {}
 ;
--- note on how to use dynamic alteration and insertion. 
--- first try to insert info into column, if there is an exception ie no column
--- then add column and insert values 
+
+SELECT * FROM WordSearch WHERE twitter_user_name = {}
+-- 3
+;
+SELECT * FROM WordSearch WHERE search_location = {}
+-- 4
+;
+SELECT * FROM WordSearch WHERE search_query = {}
+-- 5
+;
+SELECT * FROM WordSearch
+-- 6
+;
