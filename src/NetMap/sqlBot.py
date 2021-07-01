@@ -32,27 +32,32 @@ class SQL_Credentials:
         """Sets Chosen Database to authentication"""
         if db == None:
             logger.info('NO DATABASE CHOSEN')
-            return self.auth
 
         else:
             logger.info(f"Database {db} chosen to connect")
-            return self.auth.update({'database': db})
+            self.auth.update({'database': db})
 
 
 class SQL_Cli:
     """SQL Client Object"""
     def __init__(self, db: str = None):
+        S = SQL_Credentials()
+        S.authenticate(db=db)
         # authenticate
-        self.__auth = SQL_Credentials().authenticate(db=db)
+        self.__auth = S
         # set connection parameters
         self.__db = conn.connect(
 
-            host=self.auth['host'],
-            user=self.auth['user'],
-            password=self.auth['password'],
-            database=self.auth['database']
+            host=self.__auth.auth['host'],
+            user=self.__auth.auth['user'],
+            password=self.__auth.auth['password'],
+            database=self.__auth.auth['database']
 
         )
+
+    @property
+    def db(self):
+        return self.__db
 
     def execute(self, query: str):
         """SQL Execution Command
@@ -111,17 +116,29 @@ class sqlModel:
     """Object for SQL"""
     # list of commands 
     commands = './database/queries/sqlCommands.sql'
+    checkCreate = './database/createDatabase.sql'
 
-    def __init__(self, db:str = None):
+    def __init__(self, db: str = None):
 
-        self.database = db
-        self.commands = read_sql(file=cls.commands)
+        self.db = db
+        self.commands = read_sql(file=sqlModel.commands)
+        self.checkCreate = read_sql(file=sqlModel.checkCreate)
         self.__SQL = SQL_Cli(db=db)
 
     @property
     def SQL(self):
         return self.__SQL
-        
+
+    def checkCreateDataBase(self):
+        # this function needs to be places in the Client
+        # or i need to allow create a logic that connects to SQL then builds db second
+        try:
+            self.SQL.execute(self.checkCreate[0])
+            logger.info(f' + | {self.db} created')
+        except:
+            logger.info(f' + | {self.db} already exists |')
+
+
     def insertNormalizedData(self, data: dict):
         """Function to insert normalized tweet data"""
         # this function takes all static data retrieved from tweet 

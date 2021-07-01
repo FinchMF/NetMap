@@ -32,5 +32,6 @@ from NetMap.search.searchParams import SearchParams
 from NetMap.utils import *
 from NetMap.data.dataModels import *
 from NetMap.twBot import *
+from NetMap.sqlBot import *
 
 ##################################
