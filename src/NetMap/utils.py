@@ -1,7 +1,7 @@
 
-from NetMap import ( random, pd, 
+from NetMap import ( random, pd, re, 
                      CLIENT, DATAFRAME, PARAMS,
-                     logger )
+                     logger, Tuple )
 
 class Tools:
 
@@ -37,7 +37,7 @@ class Tools:
 
     @staticmethod
     def collect_randomly_chosen(selected_followers: list, 
-                               client: CLIENT, 
+                                client: CLIENT, 
                                 records: int = 5 ) -> DATAFRAME:
 
         """Collect all the followers of the randomly choosen followers from seed account
@@ -105,7 +105,51 @@ class Tools:
         # concat all dataframes and return
         return pd.concat(fullSearch)
 
+    @staticmethod
+    def deEmoji(text: str) -> str:
 
+        regrex_pattern = re.compile(pattern = "["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           "]+", flags = re.UNICODE)
+    
+        return regrex_pattern.sub(r'',text)
+
+    @staticmethod
+    def seperateNormalizedData(data: DATAFRAME) -> Tuple[dict]:
+        """Function to parse returned twitter data"""
+        # this function preps the data to be inserted into sql database
+        pattern = r'\d+$'
+        
+        normalized_dataCols = []
+        unnormalized_dataCols = []
+        # parse the columns by matching a regex pattern
+        for col in list(data.columns):
+            if re.search(pattern, col):
+                unnormalized_dataCols.append(col)
+            else:
+                normalized_dataCols.append(col)
+        # convert the parsed data into dictionaries
+        normalData = data[normalized_dataCols].to_dict('records')
+        unnormalData = data[unnormalized_dataCols].to_dict('records')
+
+        return normalData, unnormalData
+
+    @staticmethod
+    def deEmoji(text: str) -> str:
+
+        regrex_pattern = re.compile(pattern = "["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           "]+", flags = re.UNICODE)
+    
+        return regrex_pattern.sub(r'',text)
+
+        
     @staticmethod
     def pipe():
         """Function to Pass Tweet DataFrame into SQL DB"""

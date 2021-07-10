@@ -1,4 +1,4 @@
-from NetMap import ( cfg, conn, logger, Union, DATAFRAME, pd )
+from NetMap import ( cfg, conn, logger, Union, DATAFRAME, pd, SQL_CONNECT, Tools )
 
 # helper function to read in SQL commands
 def read_sql(file: str) -> list:
@@ -15,6 +15,27 @@ def read_sql(file: str) -> list:
     sql = sql.split(';')
 
     return sql
+
+def sqlConnect(credentials: object, db: str=None) -> SQL_CONNECT:
+
+    if db == None:
+
+        return conn.connect(
+
+            host = credentials.auth['host'],
+            user = credentials.auth['user'],
+            password = credentials.auth['password'],
+        )
+    
+    else:
+
+        return conn.connect(
+
+            host = credentials.auth['host'],
+            user = credentials.auth['user'],
+            password = credentials.auth['password'],
+            database = credentials.auth['database']
+        )
 
 class SQL_Credentials:
     """SQL Authentication Object"""
@@ -41,19 +62,11 @@ class SQL_Credentials:
 class SQL_Cli:
     """SQL Client Object"""
     def __init__(self, db: str = None):
-        S = SQL_Credentials()
-        S.authenticate(db=db)
+        credentials = SQL_Credentials()
         # authenticate
-        self.__auth = S
+        credentials.authenticate(db=db)
         # set connection parameters
-        self.__db = conn.connect(
-
-            host=self.__auth.auth['host'],
-            user=self.__auth.auth['user'],
-            password=self.__auth.auth['password'],
-            database=self.__auth.auth['database']
-
-        )
+        self.__db = sqlConnect(credentials=credentials, db=db)
 
     @property
     def db(self):
@@ -117,24 +130,31 @@ class sqlModel:
     # list of commands 
     commands = './database/queries/sqlCommands.sql'
     checkCreate = './database/createDatabase.sql'
+    buildTable = './database/buildTables.sql'
 
     def __init__(self, db: str = None):
 
         self.db = db
         self.commands = read_sql(file=sqlModel.commands)
         self.checkCreate = read_sql(file=sqlModel.checkCreate)
+        self.build = read_sql(file=sqlModel.buildTable)
         self.__SQL = SQL_Cli(db=db)
 
     @property
     def SQL(self):
         return self.__SQL
 
-    def checkCreateDataBase(self):
-        # this function needs to be places in the Client
+    def checkCreateDataBase(self, db: str=None):
+        # this function needs to be placed in the Client
         # or i need to allow create a logic that connects to SQL then builds db second
+        if self.db == None:
+            self.db = db
         try:
-            self.SQL.execute(self.checkCreate[0])
+            self.SQL.execute(self.checkCreate[0].format(self.db))
             logger.info(f' + | {self.db} created')
+            self.SQL.execute(self.build[0].format(self.db))
+            logger.info(f' + | WordSearch Table Built')
+
         except:
             logger.info(f' + | {self.db} already exists |')
 
@@ -143,7 +163,10 @@ class sqlModel:
         """Function to insert normalized tweet data"""
         # this function takes all static data retrieved from tweet 
         # dynamic data includes hashtags and mentions
-        data = list(data.values())
+        data = tuple([str(d) if type(d) == bool else d for d in data.values()])
+        data = tuple([ Tools.deEmoji(d) if type(d) == str else d for d in data])
+        data = tuple([ str(d) if type(d) == list else d for d in data])
+        print(self.commands[0].format(data))
         self.SQL.insert(self.commands[0].format(data))
         logger.info(f' + | Data Inserted to {self.db} |')
 

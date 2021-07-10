@@ -1,6 +1,6 @@
 INSERT INTO WordSearch(
 -- 0    
--- normalized insert statement of static record struture
+
     tweet_time,
     tweet_id,
     full_text,
@@ -12,21 +12,25 @@ INSERT INTO WordSearch(
     tweet_user_description,
     tweet_user_followers_count,
     tweet_user_friends_count,
+    tweet_user_creation,
     tweet_user_tweet_count,
     tweet_retweeted,
     tweet_favorited,
-    tweet_retweet_count, 
-    tweet_favorite_count,
+    tweet_retweet_count,
+    tweet_favorite_count, 
+
     tweet_in_reply_to_status_id,
-    tweet_in_reply_to_user_id, 
+    tweet_in_reply_to_user_id,
     tweet_in_reply_to_user_screen_name,
+
     retweeted_tweet_time,
     retweeted_full_text,
     retweeted_text_range,
     retweeted_tweet_id,
     retweeted_source,
     retweet_in_reply_to_id,
-    retweet_in_reply_to_user_screename,
+    retweet_in_reply_user_id,
+    retweet_in_reply_to_user_screenname,
     retweet_user_id,
     retweet_user_screen_name,
     retweet_user_description,
@@ -39,8 +43,6 @@ INSERT INTO WordSearch(
     search_location,
     search_time
 )
--- alittle bit of a hack, but this allows for string formating
--- when pulled into python during automation
 VALUES {}
 ;
 
@@ -72,4 +74,7 @@ SELECT * FROM WordSearch WHERE search_query = {}
 ;
 SELECT * FROM WordSearch
 -- 6
+;
+SHOW TABLES FROM {}
+-- 7
 ;

@@ -18,10 +18,10 @@ class TweetData(dict):
         DATA: dict = TweetData()
         # general info about tweet content and owner's account
         DATA.tweet_time: str = tweet.created_at.strftime("%Y-%m-%dT%H:%M:%S")
-        DATA.tweet_id: int = tweet.id
+        DATA.tweet_id: str = tweet.id_str
         DATA.full_text: str = tweet.full_text
         DATA.text_range: str = tweet.display_text_range
-        DATA.tweet_user_id: int = tweet.user.id
+        DATA.tweet_user_id: str = tweet.user.id_str
         DATA.tweet_user_name: str = tweet.user.name
         DATA.tweet_user_screen_name: str = tweet.user.screen_name
         DATA.tweet_user_location: str = tweet.user.location
@@ -35,19 +35,19 @@ class TweetData(dict):
         DATA.tweet_retweet_count: int = tweet.retweet_count
         DATA.tweet_favorite_count: int = tweet.favorite_count
         # if tweet is a reply, log who it is a rely to
-        DATA.tweet_in_reply_to_status_id: int = tweet.in_reply_to_status_id
-        DATA.tweet_in_reply_to_user_id: int = tweet.in_reply_to_user_id
+        DATA.tweet_in_reply_to_status_id: str = str(tweet.in_reply_to_status_id)
+        DATA.tweet_in_reply_to_user_id: str = str(tweet.in_reply_to_user_id)
         DATA.tweet_in_reply_to_user_screen_name: str = tweet.in_reply_to_screen_name
         # general info about content's origin if conetent is retweeted
         DATA.retweeted_tweet_time: str = tweet.retweeted_status.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweeted_full_text: str = tweet.retweeted_status.full_text if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweeted_text_range: str = tweet.retweeted_status.display_text_range if 'retweeted_status' in tweet.__dict__ else None
-        DATA.retweeted_tweet_id: int = tweet.retweeted_status.id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweeted_tweet_id: str = str(tweet.retweeted_status.id) if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweeted_source: str = tweet.retweeted_status.source if 'retweeted_status' in tweet.__dict__ else None
-        DATA.retweet_in_reply_to_id: int = tweet.retweeted_status.in_reply_to_status_id if 'retweeted_status' in tweet.__dict__ else None
-        DATA.retweet_in_reply_to_user_id: int = tweet.retweeted_status.in_reply_to_user_id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_in_reply_to_id: str = str(tweet.retweeted_status.in_reply_to_status_id) if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_in_reply_to_user_id: str = str(tweet.retweeted_status.in_reply_to_user_id) if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_in_reply_to_user_screenname: str = tweet.retweeted_status.in_reply_to_screen_name if 'retweeted_status' in tweet.__dict__ else None
-        DATA.retweet_user_id: int = tweet.retweeted_status.user.id if 'retweeted_status' in tweet.__dict__ else None
+        DATA.retweet_user_id: str = str(tweet.retweeted_status.user.id) if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_user_screen_name: str = tweet.retweeted_status.user.screen_name if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_user_description: str = tweet.retweeted_status.user.description if 'retweeted_status' in tweet.__dict__ else None
         DATA.retweet_user_creation: str = tweet.retweeted_status.user.created_at.strftime("%Y-%m-%dT%H:%M:%S") if 'retweeted_status' in tweet.__dict__ else None

@@ -2,10 +2,11 @@
 # INITIALIZE #
 ##############
 
+import re
+import sys
 import time
 import random
 import requests
-import sys
 import logging
 
 logging.basicConfig(
@@ -21,7 +22,7 @@ import pandas as pd
 from datetime import ( datetime, date, timedelta )
 from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
 
-from typing import ( List, Dict, Any, Union, Optional, TypeVar )
+from typing import ( List, Dict, Any, Union, Optional, TypeVar, Tuple )
 
 import NetMap.config as cfg
 from NetMap.data.dataTypes import *
@@ -31,7 +32,7 @@ from NetMap.search.searchDates import DateRange
 from NetMap.search.searchParams import SearchParams
 from NetMap.utils import *
 from NetMap.data.dataModels import *
-from NetMap.twBot import *
-from NetMap.sqlBot import *
+from NetMap.bots.twBot import *
+from NetMap.bots.sqlBot import *
 
 ##################################

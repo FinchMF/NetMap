@@ -149,6 +149,7 @@ class TwCli:
                             since=date,
                             tweet_mode='extended',
                             geocode=geocode,
+                            wait_on_rate_limit=True,
                             count=200).pages(records):
                             # NOTE: count is set at 200 per page, but
                             # Twitter API seems to override this parameter
