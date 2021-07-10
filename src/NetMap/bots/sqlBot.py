@@ -164,7 +164,7 @@ class sqlModel:
         # this function takes all static data retrieved from tweet 
         # dynamic data includes hashtags and mentions
         data = tuple([str(d) if type(d) == bool else d for d in data.values()])
-        data = tuple([ Tools.deEmoji(d) if type(d) == str else d for d in data])
+        data = tuple([ Tools.deEmoji(d) if type(d) == str else d for d in data]) # maybe turn this into one function with a decision tree rather than loop three times?
         data = tuple([ str(d) if type(d) == list else d for d in data])
         print(self.commands[0].format(data))
         self.SQL.insert(self.commands[0].format(data))
