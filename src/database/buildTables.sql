@@ -1,14 +1,14 @@
 CREATE TABLE {}.WordSearch (
     -- general info about tweet content and owner's account
-    tweet_time VARCHAR(30),
+    tweet_time VARCHAR(50),
     tweet_id VARCHAR(100),
-    full_text VARCHAR(300),
+    full_text VARCHAR(500),
     text_range VARCHAR(30),
     tweet_user_id VARCHAR(100),
     tweet_user_name VARCHAR(100),
     tweet_user_screen_name VARCHAR(100),
     tweet_user_location VARCHAR(100),
-    tweet_user_description VARCHAR(300),
+    tweet_user_description VARCHAR(500),
     tweet_user_followers_count INT,
     tweet_user_friends_count INT,
     tweet_user_creation VARCHAR(100),
@@ -22,8 +22,8 @@ CREATE TABLE {}.WordSearch (
     tweet_in_reply_to_user_id VARCHAR(100),
     tweet_in_reply_to_user_screen_name VARCHAR(100),
     -- general in about content's origin if content is retweeted
-    retweeted_tweet_time VARCHAR(30),
-    retweeted_full_text VARCHAR(300),
+    retweeted_tweet_time VARCHAR(50),
+    retweeted_full_text VARCHAR(500),
     retweeted_text_range VARCHAR(30),
     retweeted_tweet_id VARCHAR(100),
     retweeted_source VARCHAR(70),
@@ -45,9 +45,6 @@ CREATE TABLE {}.WordSearch (
     -- the location the tweet is a result of
     search_location VARCHAR(300),
     -- the time the tweet was searched
-    search_time VARCHAR(20),
-
-    PRIMARY KEY (tweet_id)
-
+    search_time VARCHAR(20)
 )
 ;

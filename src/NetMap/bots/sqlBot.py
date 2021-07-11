@@ -1,4 +1,7 @@
-from NetMap import ( cfg, conn, logger, Union, DATAFRAME, pd, SQL_CONNECT, Tools )
+
+from NetMap import ( cfg, conn, logger, 
+                    Union, DATAFRAME, pd, 
+                    SQL_CONNECT, Tools, Process )
 
 # helper function to read in SQL commands
 def read_sql(file: str) -> list:
@@ -16,8 +19,9 @@ def read_sql(file: str) -> list:
 
     return sql
 
+# helper function to conned to SQL servers
 def sqlConnect(credentials: object, db: str=None) -> SQL_CONNECT:
-
+    """Function to connect to SQL server"""
     if db == None:
 
         return conn.connect(
@@ -159,16 +163,17 @@ class sqlModel:
             logger.info(f' + | {self.db} already exists |')
 
 
-    def insertNormalizedData(self, data: dict):
+    def insertNormalizedData(self, data: list):
         """Function to insert normalized tweet data"""
         # this function takes all static data retrieved from tweet 
         # dynamic data includes hashtags and mentions
-        data = tuple([str(d) if type(d) == bool else d for d in data.values()])
-        data = tuple([ Tools.deEmoji(d) if type(d) == str else d for d in data]) # maybe turn this into one function with a decision tree rather than loop three times?
-        data = tuple([ str(d) if type(d) == list else d for d in data])
-        print(self.commands[0].format(data))
-        self.SQL.insert(self.commands[0].format(data))
-        logger.info(f' + | Data Inserted to {self.db} |')
+
+        data = Process.convertDataTypes(data=data)
+        try:
+            self.SQL.insert(self.commands[0].format(data))
+            logger.info(f' + | Data Inserted to {self.db} |')
+        except Exception as e:
+            logger.info(f" + | Ran into this Error: {e} | Omitted Data: {data['tweet_id']}")
 
     def insertAddedColumn(self, column: str, data: str):
         """Function to insert data on a specific column"""

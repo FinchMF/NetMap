@@ -104,18 +104,32 @@ class Tools:
                     collector(dataframe)
         # concat all dataframes and return
         return pd.concat(fullSearch)
+        
+    @staticmethod
+    def pipe():
+        """Function to Pass Tweet DataFrame into SQL DB"""
+        pass
+
+class Process:
+
+    """Object to Process Text and Twitter Payloads"""
 
     @staticmethod
     def deEmoji(text: str) -> str:
-
-        regrex_pattern = re.compile(pattern = "["
-        u"\U0001F600-\U0001F64F"  # emoticons
-        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
-        u"\U0001F680-\U0001F6FF"  # transport & map symbols
-        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
-                           "]+", flags = re.UNICODE)
+        """Function to replace emojis with nothing"""
+        pattern = re.compile(pattern = "["
+                                        # emoticons
+                                        u"\U0001F600-\U0001F64F"
+                                        # symbols & pictographs  
+                                        u"\U0001F300-\U0001F5FF"
+                                        # transport & map symbols  
+                                        u"\U0001F680-\U0001F6FF"
+                                        # flags (iOS)  
+                                        u"\U0001F1E0-\U0001F1FF"  
+                                        "]+", 
+                            flags = re.UNICODE)
     
-        return regrex_pattern.sub(r'',text)
+        return pattern.sub(r'', text)
 
     @staticmethod
     def seperateNormalizedData(data: DATAFRAME) -> Tuple[dict]:
@@ -138,13 +152,13 @@ class Tools:
         return normalData, unnormalData
 
     @staticmethod
-    def processDataValues(data: dict) -> tuple:
+    def convertDataTypes(data: dict) -> tuple:
         """Function to process data values for normalized inputs"""
         x = list(data.values())
-        for i in len(x):
+        for i in range(len(x)):
 
             if type(x[i]) == str:
-                x[i] = Tools.deEmoji(x[i])
+                x[i] = Process.deEmoji(x[i])
 
             if type(x[i]) == bool:
                 x[i]= str(x[i])
@@ -154,9 +168,7 @@ class Tools:
 
         return tuple(x)
 
-
-        
     @staticmethod
-    def pipe():
-        """Function to Pass Tweet DataFrame into SQL DB"""
-        pass
+    def generateMultipleRecords(data: list) -> list:
+        """Function to generate list of tuples"""
+        return [ Process.convertDataTypes(data=d) for d in data ]
