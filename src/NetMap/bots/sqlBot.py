@@ -132,9 +132,9 @@ class SQL_Cli:
 class sqlModel:
     """Object for SQL"""
     # list of commands 
-    commands = './database/queries/sqlCommands.sql'
-    checkCreate = './database/createDatabase.sql'
-    buildTable = './database/buildTables.sql'
+    commands = './database/sql/queries/sqlCommands.sql'
+    checkCreate = './database/sql/createDatabase.sql'
+    buildTable = './database/sql/buildTables.sql'
 
     def __init__(self, db: str = None):
 

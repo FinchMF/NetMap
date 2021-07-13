@@ -18,6 +18,7 @@ logging.basicConfig(
 logger = logging.getLogger('NetMap-Log')
 
 import mysql.connector as conn
+import pymongo
 import pandas as pd
 from datetime import ( datetime, date, timedelta )
 from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
@@ -30,6 +31,7 @@ from NetMap.search.searchWords import WordSearch
 from NetMap.search.searchCoordinates import LocationServices
 from NetMap.search.searchDates import DateRange
 from NetMap.search.searchParams import SearchParams
+from NetMao.database.mongodb import mongoCli as mongo
 from NetMap.utils import *
 from NetMap.data.dataModels import *
 from NetMap.bots.twBot import *
