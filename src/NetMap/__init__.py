@@ -31,10 +31,10 @@ from NetMap.search.searchWords import WordSearch
 from NetMap.search.searchCoordinates import LocationServices
 from NetMap.search.searchDates import DateRange
 from NetMap.search.searchParams import SearchParams
-from NetMao.database.mongodb import mongoCli as mongo
 from NetMap.utils import *
 from NetMap.data.dataModels import *
 from NetMap.bots.twBot import *
 from NetMap.bots.sqlBot import *
+from NetMap.bots.mongoBot import *
 
 ##################################
