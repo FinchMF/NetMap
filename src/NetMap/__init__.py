@@ -36,5 +36,6 @@ from NetMap.data.dataModels import *
 from NetMap.bots.twBot import *
 from NetMap.bots.sqlBot import *
 from NetMap.bots.mongoBot import *
+from NetMap.pipeline import *
 
 ##################################
