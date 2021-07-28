@@ -1,2 +1,2 @@
-FLASK_APP=app
+FLASK_APP=NetMap
 FLASK_ENV=development
