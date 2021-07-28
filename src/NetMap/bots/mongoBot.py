@@ -1,4 +1,4 @@
-from NetMap import ( pymongo, logger )
+from NetMap import ( pymongo, logger, cfg )
 
 class MongoCli:
     """Object to handle Mongo Connection"""
@@ -49,7 +49,7 @@ class MongoCli:
 
 class mongoModel:
     """Object to connect to local mongodb"""
-    server = "mongodb://localhost:27017/"
+    server = cfg.mongo_credentials()['server'] 
 
     def __init__(self, database: str, collection: str):
         # instantiates connection to database and collection on server

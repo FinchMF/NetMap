@@ -1,0 +1,8 @@
+Flask==1.1.2
+mysql-connector-python==8.0.22
+mysqlclient==2.0.1
+networkx==2.4
+plotly==4.9.0
+pymongo==3.11.0
+python-dotenv==0.19.0
+tweepy==3.8.0

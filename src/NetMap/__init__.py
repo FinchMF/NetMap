@@ -3,6 +3,7 @@
 ##############
 
 import re
+import os
 import sys
 import time
 import random
@@ -17,6 +18,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger('NetMap-Log')
 
+from dotenv import load_dotenv
 import mysql.connector as conn
 import pymongo
 import pandas as pd
@@ -26,6 +28,9 @@ import networkx as nx
 import plotly.graph_objects as go
 
 from typing import ( List, Dict, Any, Union, Optional, TypeVar, Tuple )
+
+from flask import Flask
+app = Flask(__name__)
 
 import NetMap.config as cfg
 from NetMap.data.dataTypes import *
