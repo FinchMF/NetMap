@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h1>Twitter Hashtag NetMap</h1>
+    <div>
+        <input autocomplete="off" autofocus id="location" name="location" location="location" type="text" placeholder="location">
+        <input autocomplete="off" autofocus id="q" name="q" q="q" type="text" placeholder="hashtag" >
+        <input type="button" onClick="loadWait();" value="Search">
+    </div>
+
+{% endblock %}

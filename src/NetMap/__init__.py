@@ -29,9 +29,6 @@ import plotly.graph_objects as go
 
 from typing import ( List, Dict, Any, Union, Optional, TypeVar, Tuple )
 
-from flask import Flask
-app = Flask(__name__)
-
 import NetMap.config as cfg
 from NetMap.data.dataTypes import *
 from NetMap.search.searchWords import WordSearch
