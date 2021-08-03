@@ -15,9 +15,11 @@ def loading():
 
         'q': request.json.q,
         'location': request.json.location
+        # need date - use datetime and get day of
+        # add number of days look back - choose 7
     } 
 
-    records: int = 1
+    records: int = 1 # try more variables / or create security around number of locations and words
     pipeline = LINE(params=params, records=records)
     pipeline.getData()
     pipeline.send2db()

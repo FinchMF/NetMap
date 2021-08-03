@@ -6,3 +6,21 @@ body {
 h1 {
     font-family:'Courier New', Courier, monospace
 }
+
+.main {
+    display: block;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+}
+
+.inputs {
+
+    align-items: center;
+
+}
+
+.search {
+    padding-top: 5px;
+}

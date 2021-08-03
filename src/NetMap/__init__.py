@@ -26,6 +26,7 @@ from datetime import ( datetime, date, timedelta )
 from tweepy import ( API, Cursor, OAuthHandler, TweepError, RateLimitError )
 import networkx as nx
 import plotly.graph_objects as go
+import plotly
 
 from typing import ( List, Dict, Any, Union, Optional, TypeVar, Tuple )
 
