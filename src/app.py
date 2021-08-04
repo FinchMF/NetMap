@@ -10,13 +10,15 @@ def index():
 
 @app.route('/loading', methods=['POST'])
 def loading():
-
+    print('made it')
+    print(request.json.q)
+    print(type(request.json.q))
     params: dict = {
 
-        'q': request.json.q,
-        'location': request.json.location
-        # need date - use datetime and get day of
-        # add number of days look back - choose 7
+        'q': [str(request.json.q)],
+        'location': [str(request.json.location)],
+        'start_date': '2021-08-02',
+        'num_days': 7
     } 
 
     records: int = 1 # try more variables / or create security around number of locations and words

@@ -7,5 +7,14 @@
         <input class="inputs" autocomplete="off" autofocus id="q" name="q" q="q" type="text" placeholder="hashtag" >
         <input class="search" type="button" onClick="loadWait();" value="Search">
     </div>
+    <div >
+        <div id="netGraph">
+            <script>
+                var graphs = {{ plot | safe }};
+                Plotly.plot('netGraph', graphs, {});
+            </script>
+
+        </div>
+    </div>
 
 {% endblock %}

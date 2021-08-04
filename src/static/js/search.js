@@ -1,14 +1,13 @@
 
 function loadWait(){
 
-
     const locationElement = document.getElementById('location')
     const qElement = document.getElementById('q')
     const location = locationElement.value
     const q = qElement.value
 
     fetch(
-        "/loading",
+        '/loading',
         {
         method: 'POST',
         headers: {
@@ -18,6 +17,8 @@ function loadWait(){
             location: location,
             q: q
         }
-    }).then(function(data){})
+    }).then(function(data){
+        Plotly.newPlot('netGraph', data);
+    });
 
 }
