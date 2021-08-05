@@ -1,26 +1,48 @@
 
 body {
-    background-color: lightblue;
+    background-color: #171717;
 }
 
 h1 {
-    font-family:'Courier New', Courier, monospace
+    font-family:'Courier New', Courier, monospace;
+    color: white;
+
 }
 
 .main {
-    display: block;
+    display: flex;
     align-items: center;
     margin-left: auto;
     margin-right: auto;
-    width: 20%;
+    justify-content: center;
+    flex-direction: column; 
 }
 
 .inputs {
 
     align-items: center;
-
+    margin-bottom: 10px;
 }
 
 .search {
     padding-top: 5px;
+}
+
+.loader {
+    display: none;
+    margin-top: 150px;
+
+}
+
+.loaderDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.renderContent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

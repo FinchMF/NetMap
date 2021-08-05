@@ -11,23 +11,29 @@ def index():
 @app.route('/loading', methods=['POST'])
 def loading():
     print('made it')
-    print(request.json.q)
-    print(type(request.json.q))
-    params: dict = {
+    try:
+        print(request.json)
+        print(type(request.json))
+        params: dict = {
 
-        'q': [str(request.json.q)],
-        'location': [str(request.json.location)],
-        'start_date': '2021-08-02',
-        'num_days': 7
-    } 
+            'words': [str(request.json['q'])],
+            'locations': [str(request.json['location'])],
+            'start_date': '2021-08-02',
+            'num_days': 7
+        } 
 
-    records: int = 1 # try more variables / or create security around number of locations and words
-    pipeline = LINE(params=params, records=records)
-    pipeline.getData()
-    pipeline.send2db()
-    data = pipeline.callData()
-    data = pipeline.dataFramed(data)
-    net = pipeline.generateNetwork(data=data, title='Accounts <-> Hashtags')
-    graphJSON = json.dumps([net], cls=plotly.utils.PlotlyJSONEncoder)
+        records: int = 1 # try more variables / or create security around number of locations and words
+        pipeline = LINE(params=params, records=records)
+        pipeline.getData()
+        pipeline.send2db()
+        data = pipeline.callData()
+        data = pipeline.dataFramed(data)
+        net = pipeline.generateNetwork(data=data, title='Accounts <-> Hashtags')
+        graphJSON = json.dumps(net, cls=plotly.utils.PlotlyJSONEncoder)
+        return graphJSON
+    except Exception as e:
+        print(e)
+    
+    return {}
 
-    return graphJSON
+    
